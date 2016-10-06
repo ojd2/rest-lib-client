@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.1"]
                  [ring/ring-defaults "0.2.1"]
-                 [liberator "0.13"]
+                 [liberator "0.14.1"]
                  [org.clojure/data "0.2.6"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler rest-articles.handler/app
