@@ -10,23 +10,34 @@
             [compojure.core :refer :all]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
 
-;; Set up some default media types for 
-;; our API to accept:
+;; Set up some default media types for
+;; our API to accept, we need media types for
+;; writing out requests and internal data:
 (def default-media-types
   ["application/json"
    "text/plain"
    "text/html"])
 
-;; Liberator default multimethod set to switch upon media type.
-;; 'data' signifies a data map and 'context' signifies a cojoined key/pair value of 'data':
+;; Using a Liberator multimethod function, define a function that will
+;; 'dispatch on media type' a simple 'conj' method to cojoin our data
+;; and the chosen media type as 'context':
 (defmulti render-map-generic "dispatch on media type"
-  (fn [data context] (get-in context [:representation :media-type]))) 
+  (fn [data context] (get-in context [:representation :media-type])))
 
-;; Now define a method for our 'render-map-generic' method above.
-;; Implement a method to extract 'data' key / value pairs and cojoin:
+;; Define one method for writing 'json' media type:
 (defmethod render-map-generic "application/json" [data context]
   ["json/write" (conj (:links data (:properties data)))])
 
+;; Define one method for writing as a 'hmtl' media type:
+(defmethod render-map-generic "application/html" [data context]
+  (html [:div
+         [:h1 (-> data :class first)]
+         [:dl
+          (mapcat (fn [[key value]] [[:dt key] [:dd value]])
+                  (:properties data))]]))
+
+;; Define a handler to create our data object for an article:
+(defrecord Article [id headline full channel status])
 
 
 
