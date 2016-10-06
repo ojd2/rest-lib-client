@@ -1,6 +1,8 @@
-# rest-articles
+# rest-lib-client
 
-FIXME
+Simple REST service for Wiki articles.
+
+TBC...
 
 ## Prerequisites
 
@@ -16,5 +18,5 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2016 FIXME
-# rest-lib-client
+Copyright © 2016 Kino
+
